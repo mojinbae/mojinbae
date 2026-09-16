@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>모진배 | AI 리터러시 지도사</title>
+    
+    <!-- 가독성이 뛰어난 웹 폰트 (Pretendard) 로드 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    
+    <style>
+        /* 기본 설정 및 리셋 */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Pretendard', sans-serif; 
+            color: #333; 
+            line-height: 1.6; 
+            background-color: #f4f7f9; 
+            word-break: keep-all; 
+        }
+        h1, h2, h3 { font-weight: 700; color: #1a2b3c; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* 히어로 섹션 (메인 배너) */
+        .hero { 
+            background: linear-gradient(135deg, #16222A 0%, #3A6073 100%); 
+            color: white; 
+            padding: 150px 20px; 
+            text-align: center; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .hero h1 { 
+            color: white; 
+            font-size: 2.8rem; 
+            margin-bottom: 20px; 
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3); 
+            letter-spacing: -1px;
+        }
+        .hero p { 
+            font-size: 1.2rem; 
+            opacity: 0.9; 
+            max-width: 700px; 
+            margin: 0 auto; 
+            line-height: 1.8; 
+            font-weight: 300;
+        }
+
+        /* 공통 섹션 스타일 */
+        .section { padding: 100px 0; }
+        .section-title { 
+            text-align: center; 
+            font-size: 2.2rem; 
+            margin-bottom: 60px; 
+            position: relative; 
+        }
+        .section-title::after { 
+            content: ''; 
+            display: block; 
+            width: 70px; 
+            height: 4px; 
+            background: #d4af37; /* 고급스러운 골드 포인트 */
+            margin: 20px auto 0; 
+            border-radius: 2px; 
+        }
+
+        /* 프로필 섹션 */
+        .about-box {
+            background: white;
+            padding: 60px 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            border: 1px solid #eef1f5;
+        }
+        .about-box h3 { font-size: 1.5rem; color: #3A6073; margin-bottom: 20px; }
+        .about-box p { font-size: 1.15rem; color: #555; max-width: 800px; margin: 0 auto; }
+
+        /* 그리드 레이아웃 (반응형) */
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+            gap: 30px; 
+        }
+
+        /* 3D 입체 카드 디자인 */
+        .card { 
+            background: white; 
+            padding: 40px 30px; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06); 
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease; 
+            border-top: 5px solid #3A6073; 
+        }
+        .card:hover { 
+            transform: translateY(-12px); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15); 
+        }
+        .card h3 { 
+            font-size: 1.5rem; 
+            margin-bottom: 20px; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+        }
+        .card ul { list-style: none; }
+        .card ul li { 
+            margin-bottom: 12px; 
+            padding-left: 24px; 
+            position: relative; 
+            color: #444; 
+            font-size: 1.05rem;
+        }
+        .card ul li::before { 
+            content: '✓'; 
+            position: absolute; 
+            left: 0; 
+            color: #d4af37; 
+            font-weight: 900; 
+        }
+
+        /* 문의 섹션 */
+        .contact { background: #16222A; color: white; text-align: center; }
+        .contact h2 { color: white; }
+        .contact .section-title::after { background: #d4af37; }
+        .contact-info { font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9; }
+        
+        .contact-btn { 
+            display: inline-block; 
+            padding: 18px 50px; 
+            font-size: 1.2rem; 
+            background: #d4af37; 
+            color: #16222A; 
+            border-radius: 50px; 
+            font-weight: 800; 
+            transition: all 0.3s ease; 
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4); 
+        }
+        .contact-btn:hover { 
+            background: #f3c93f; 
+            transform: scale(1.05) translateY(-3px); 
+            box-shadow: 0 12px 25px rgba(212, 175, 55, 0.6); 
+        }
+
+        /* 맨위로 (Top) 버튼 */
+        #scrollTopBtn { 
+            display: none; 
+            position: fixed; 
+            bottom: 30px; 
+            right: 30px; 
+            z-index: 999; 
+            font-size: 14px; 
+            border: none; 
+            outline: none; 
+            background-color: #3A6073; 
+            color: white; 
+            cursor: pointer; 
+            width: 60px; 
+            height: 60px; 
+            border-radius: 50%; 
+            font-weight: bold; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
+            transition: all 0.3s ease; 
+        }
+        #scrollTopBtn:hover { 
+            background-color: #16222A; 
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
+        }
+
+        /* 모바일 반응형 처리 */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .hero p { font-size: 1.05rem; }
+            .section { padding: 70px 0; }
+            .section-title { font-size: 1.8rem; margin-bottom: 40px; }
+            .about-box { padding: 40px 20px; }
+            #scrollTopBtn { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 히어로 섹션 -->
+    <header class="hero">
+        <div class="container">
+            <h1>AI 시대의 생존을 넘어<br>성장을 이끄는 실무 밀착형 교육</h1>
+            <p>누구나 쉽게 이해하고 바로 현장에 적용하는 AI 리터러시,<br>모진배 강사가 여러분의 조직과 함께합니다.</p>
+        </div>
+    </header>
+
+    <!-- 강사 소개 섹션 -->
+    <section class="section container">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-box">
+            <h3>AI 리터러시 지도사 모진배</h3>
+            <p>급변하는 디지털 환경 속에서 개인과 조직이 AI를 도구로 삼아 실질적인 성과를 낼 수 있도록 돕습니다. 기술의 장벽을 낮추고, 기획부터 마케팅까지 실무에 즉시 적용 가능한 맞춤형 인사이트를 제공합니다.</p>
+        </div>
+    </section>
+
+    <!-- 핵심 교육 분야 섹션 -->
+    <section class="section container" style="background-color: transparent;">
+        <h2 class="section-title">핵심 교육 분야</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>🤖 AI 인공지능 활용</h3>
+                <ul>
+                    <li>챗GPT 등 생성형 AI를 활용한 업무 자동화</li>
+                    <li>고품질 결과물을 도출하는 프롬프트 엔지니어링</li>
+                    <li>AI 윤리 및 미래 기술 트렌드 이해</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>📝 콘텐츠 기획 및 제작</h3>
+                <ul>
+                    <li>타겟 고객을 사로잡는 기획 및 스토리텔링</li>
+                    <li>AI 툴 활용 텍스트, 이미지, 영상 고속 제작</li>
+                    <li>목적에 맞는 시각 자료 및 프레젠테이션 디자인</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>📈 온라인 마케팅</h3>
+                <ul>
+                    <li>소상공인/자영업자 맞춤형 디지털 마케팅 전략</li>
+                    <li>AI 접목 타겟 고객 분석 및 채널 최적화</li>
+                    <li>데이터 기반 성과 측정 및 매출 증대 방안</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 대상별 맞춤형 교육 섹션 -->
+    <section class="section container">
+        <h2 class="section-title">대상별 맞춤형 교육</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>🏢 기업 및 비즈니스</h3>
+                <p style="color: #666; margin-bottom: 15px; font-size: 0.95rem;">중소기업 / 소상공인 / 자영업자</p>
+                <ul>
+                    <li>즉각적인 업무 효율 향상과 매출 직결 수단 제공</li>
+                    <li>추천강의: AI로 끝내는 1인 마케팅</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>🏛️ 공공 및 교육 기관</h3>
+                <p style="color: #666; margin-bottom: 15px; font-size: 0.95rem;">공공기관 / 공무원 / 사서교사</p>
+                <ul>
+                    <li>공공 서비스 혁신과 교육 현장의 AI 역량 강화</li>
+                    <li>추천강의: 공공 행정 업무 효율을 높이는 AI</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>🌱 미래 세대</h3>
+                <p style="color: #666; margin-bottom: 15px; font-size: 0.95rem;">청소년 / 학생</p>
+                <ul>
+                    <li>올바른 AI 가치관 확립과 창의적 활용 능력 배양</li>
+                    <li>추천강의: AI와 함께 그리는 나의 미래 진로</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 문의 섹션 -->
+    <section class="section contact">
+        <div class="container">
+            <h2 class="section-title">강의 의뢰 및 문의</h2>
+            <p class="contact-info">맞춤형 교육 커리큘럼 제안서를 보내드립니다.<br>소속, 연락처, 희망 교육 일정을 남겨주세요.</p>
+            <a href="mailto:이메일주소입력@gmail.com" class="contact-btn">강의 문의하기</a>
+        </div>
+    </section>
+
+    <!-- 맨위로 버튼 -->
+    <button id="scrollTopBtn" title="Go to top">맨위</button>
+
+    <!-- 스크롤 이벤트 자바스크립트 -->
+    <script>
+        const topBtn = document.getElementById("scrollTopBtn");
+
+        // 사용자가 300px 이상 스크롤하면 버튼 표시
+        window.onscroll = function() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                topBtn.style.display = "block";
+            } else {
+                topBtn.style.display = "none";
+            }
+        };
+
+        // 버튼 클릭 시 부드럽게 상단으로 이동
+        topBtn.addEventListener("click", function() {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+    </script>
+</body>
+</html>
